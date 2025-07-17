@@ -63,6 +63,37 @@
     tr:nth-child(even) {
       background-color: #fafafa;
     }
+    /* 程式碼框選格式 */
+
+    .code-block {
+      position: relative;
+      background-color: #272822;
+      color: #f8f8f2;
+      padding: 1rem;
+      border-radius: 10px;
+      font-family: 'Courier New', monospace;
+      line-height: 1.5;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .copy-button:hover {
+      background-color: #45a049;
+    }
+
   </style>
 </head>
 <body>
@@ -104,13 +135,31 @@
       </tr>
     </tbody>
   </table>
-
+  <!-- 表格表格結束 -->
   <p>
     <span class="blue-text">DENSE_RANK</span>
       是一種排名函數，用來根據排序結果對數據進行排名，並且
         <span class="red-text">相同分數的學生排名相同</span>
           ，不會跳號。
   </p>
+  <p>
+    <span class="blue-text">over()</span>
+      定義了
+        <span class="under">以上三種排序</span>
+          的計算範圍，也就是它適用在哪些數據上。<br>
+          範例如下:
+          <div class="code-block" id="sqlCode">
+            <button class="copy-button" onclick="copyCode()">複製</button>
+            SELECT
+              學生,
+              分數,
+              ROW_NUMBER() OVER (ORDER BY 分數 DESC) AS row_num,
+              RANK() OVER (ORDER BY 分數 DESC) AS rank_num,
+              DENSE_RANK() OVER (ORDER BY 分數 DESC) AS dense_rank_num
+            FROM 學生成績;
+              </div>
+  </p>
+  <!-- POINT -->
   <h2>POINT</h2>
   <p>
     <span class="blue-text">PARTITION BY</span>
@@ -118,5 +167,15 @@
         <span class="under">不會影響整個結果集的結構</span>
   </p>
 
+  <script>
+    function copyCode() {
+      const code = document.getElementById("sqlCode").innerText;
+      // 移除按鈕文字
+      const cleanedCode = code.replace(/^複製/, '').trim();
+      navigator.clipboard.writeText(cleanedCode).then(() => {
+        alert("已複製 SQL 程式碼！");
+      });
+    }
+  </script>
 </body>
 </html>
