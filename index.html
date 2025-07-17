@@ -20,8 +20,8 @@
     h2 {
       font-weight: 700;
       font-size: 1.5em;
-      color: #333;
-      text-align: center;
+      color: #222;
+      /*text-align: center;*/
       margin-top: 40px;
     }
 
@@ -56,7 +56,7 @@
 </head>
 <body>
   <h1>Parsley的DB筆記</h1>
-  <h2>DENSE_RANK() VS. RANK() VS. ROW_NUMBER()</h2>
+  <h2>DENSE_RANK VS. RANK VS. ROW_NUMBER</h2>
 
   <!-- 表格開始 -->
   <table>
@@ -66,6 +66,7 @@
         <th>作用</th>
         <th>排名是否連續</th>
         <th>是否有跳號</th>
+        <th>範例說明</th>
       </tr>
     </thead>
     <tbody>
@@ -74,18 +75,21 @@
         <td>傳統排名</td>
         <td>否（相同分數占同一名次）</td>
         <td>是（排名會跳號）</td>
+        <td> 1,2,3,3,5...</td>
       </tr>
       <tr>
         <td>DENSE_RANK()</td>
         <td>緊湊排名</td>
         <td>是（相同分數占同一名次）</td>
         <td>否（不會跳號）</td>
+        <td>1,2,3,3,4...</td>
       </tr>
       <tr>
         <td>ROW_NUMBER()</td>
-        <td>唯一編號</td>
+        <td>查詢結果中的每一列指定一個唯一的編號</td>
         <td>是（每行唯一）</td>
         <td>不適用</td>
+        <td>即使某些欄位的值相同，也不會有相同的編號</td>
       </tr>
     </tbody>
   </table>
