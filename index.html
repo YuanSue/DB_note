@@ -152,14 +152,14 @@
   </p>
 
   <div class="code-block" id="sqlCode">
-      <button class="copy-button" onclick="copyCode()">複製</button>
-      SELECT
+      <button class="copy-button" onclick="copyCode(this)">複製</button>
+      <span class="code-content">SELECT
         學生,
         分數,
         ROW_NUMBER() OVER (ORDER BY 分數 DESC) AS row_num,
         RANK() OVER (ORDER BY 分數 DESC) AS rank_num,
         DENSE_RANK() OVER (ORDER BY 分數 DESC) AS dense_rank_num
-      FROM 學生成績;
+      FROM 學生成績;</span>
   </div>
 
   <!-- POINT -->
@@ -171,13 +171,17 @@
   </p>
 
   <script>
-    function copyCode() {
-      const code = document.getElementById("sqlCode").innerText;
-      // 移除按鈕文字
-      const cleanedCode = code.replace(/^複製/, '').trim();
-      navigator.clipboard.writeText(cleanedCode).then(() => {
-        alert("已複製 SQL 程式碼！");
-      });
+    function copyCode(button) {
+      // 找到按鈕所在的程式碼區塊
+      const codeBlock = button.parentElement;
+      // 找到程式碼內容元素
+      const codeContent = codeBlock.querySelector('.code-content');
+      
+      if (codeContent) {
+        navigator.clipboard.writeText(codeContent.textContent).then(() => {
+          alert("已複製 SQL 程式碼！");
+        });
+      }
     }
   </script>
 </body>
