@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>DB note</title>
+  
+  <!-- 字型與樣式 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      margin: 30px;
+      color: #222;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    h2 {
+      font-weight: 700;
+      font-size: 1.5em;
+      color: #222;
+      /*text-align: center;*/
+      margin-top: 40px;
+    }
+
+    .under{
+      text-decoration: underline;
+      text-decoration-color: black;
+    }
+
+    .red-text {
+      font-weight: bold;
+
+      text-decoration-thickness: 2px;
+      color: red;
+    }
+
+    .blue-text {
+      font-weight: bold;
+      text-decoration-thickness: 2px;
+      color: rgb(105, 135, 190);
+    }
+
+    /* 表格樣式 */
+    table {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+    }
+
+    th {
+      background-color: #f5f5f5;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+    /* 程式碼框選格式 */
+
+    .code-block {
+      position: relative;
+      background-color: #272822;
+      color: #f8f8f2;
+      padding: 1rem;
+      border-radius: 10px;
+      border: 3px solid #000000;
+      font-family: 'Courier New', monospace;
+      line-height: 1.5;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .copy-button:hover {
+      background-color: #45a049;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Parsley的DB筆記</h1>
+  <h2>DENSE_RANK VS. RANK VS. ROW_NUMBER</h2>
+
+  <!-- 表格開始 -->
+  <table>
+    <thead>
+      <tr>
+        <th>函數</th>
+        <th>作用</th>
+        <th>排名是否連續</th>
+        <th>是否有跳號</th>
+        <th>範例說明</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>RANK()</td>
+        <td>傳統排名</td>
+        <td>否（相同分數占同一名次）</td>
+        <td>是（排名會跳號）</td>
+        <td> 1,2,3,3,5...</td>
+      </tr>
+      <tr>
+        <td>DENSE_RANK()</td>
+        <td>緊湊排名</td>
+        <td>是（相同分數占同一名次）</td>
+        <td>否（不會跳號）</td>
+        <td>1,2,3,3,4...</td>
+      </tr>
+      <tr>
+        <td>ROW_NUMBER()</td>
+        <td>查詢結果中的每一列指定一個唯一的編號</td>
+        <td>是（每行唯一）</td>
+        <td>不適用</td>
+        <td>即使某些欄位的值相同，也不會有相同的編號</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- 表格表格結束 -->
+  <p>
+    <span class="blue-text">DENSE_RANK</span>
+      是一種排名函數，用來根據排序結果對數據進行排名，並且
+        <span class="red-text">相同分數的學生排名相同</span>
+          ，不會跳號。
+  </p>
+  <p>
+    <span class="blue-text">over()</span>
+      定義了
+        <span class="under">以上三種排序</span>
+          的計算範圍，也就是它適用在哪些數據上。<br>
+          範例如下:
+  </p>
+
+  <div class="code-block" id="sqlCode">
+      <button class="copy-button" onclick="copyCode(this)">複製</button>
+      <span class="code-content">SELECT
+        學生,
+        分數,
+        ROW_NUMBER() OVER (ORDER BY 分數 DESC) AS row_num,
+        RANK() OVER (ORDER BY 分數 DESC) AS rank_num,
+        DENSE_RANK() OVER (ORDER BY 分數 DESC) AS dense_rank_num
+      FROM 學生成績;</span>
+  </div>
+
+  <!-- POINT -->
+  <h2>POINT</h2>
+  <p>
+    <span class="blue-text">PARTITION BY</span>
+      :用來對數據進行分組，類似 GROUP BY，但
+        <span class="under">不會影響整個結果集的結構</span>
+  </p>
+  <p>
+    <span class="blue-text">空與null的差異</span>:
+  </p>
+  <!-- 表格開始 -->
+  <table>
+    <thead>
+      <tr>
+        <th>概念</th>
+        <th>空（Empty）</th>
+        <th>NULL（空值）</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>意義</td>
+        <td>有值，但值是空的（例如空字串 ''）</td>
+        <td>沒有值，代表「未知」、「不存在」或「尚未填寫」</td>
+      </tr>
+      <tr>
+        <td>資料型別</td>
+        <td>多數出現在 文字欄位（如 VARCHAR）</td>
+        <td>可出現在任何型別欄位（文字、數字、日期等）</td>
+      </tr>
+      <tr>
+        <td>可見性</td>
+        <td>你會看到空白或空字串（""）</td>
+        <td>通常顯示為 NULL 或直接顯示為空</td>
+      </tr>
+      <tr>
+        <td>比較運算</td>
+        <td>'' = '' 為真</td>
+        <td>NULL = NULL 為 未知（不是 true）</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- 表格表格結束 -->
+
+  <p><span class="blue-text">比喻的話:空為空的紙捲筒，則null為完全沒有任何東西 </span> </p>
+
+  <script>
+    function copyCode(button) {
+      // 找到按鈕所在的程式碼區塊
+      const codeBlock = button.parentElement;
+      // 找到程式碼內容元素
+      const codeContent = codeBlock.querySelector('.code-content');
+      
+      if (codeContent) {
+        navigator.clipboard.writeText(codeContent.textContent).then(() => {
+          alert("已複製 SQL 程式碼！");
+        });
+      }
+    }
+  </script>
+
+ <a href="index.html">← 回首頁</a>
+</body>
+</html>
