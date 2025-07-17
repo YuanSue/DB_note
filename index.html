@@ -64,7 +64,6 @@
       background-color: #fafafa;
     }
     /* 程式碼框選格式 */
-
     .code-container {
       position: relative;
       background: #2d2d2d;
@@ -155,22 +154,23 @@
           ，不會跳號。
   </p>
   <p>
-    <span class="blue-text">over()</span>
-      定義了
-        <span class="under">以上三種排序</span>
-          的計算範圍，也就是它適用在哪些數據上。<br>
-          範例如下:
-          <div class="code-block" id="sqlCode">
-            <button class="copy-button" onclick="copyCode()">複製</button>
-            SELECT
-              學生,
-              分數,
-              ROW_NUMBER() OVER (ORDER BY 分數 DESC) AS row_num,
-              RANK() OVER (ORDER BY 分數 DESC) AS rank_num,
-              DENSE_RANK() OVER (ORDER BY 分數 DESC) AS dense_rank_num
-            FROM 學生成績;
-              </div>
+  <span class="blue-text">over()</span> 定義了
+  <span class="under">以上三種排序</span> 的計算範圍，也就是它適用在哪些數據上。<br>
+    範例如下：
   </p>
+
+  <div class="code-block" id="sqlCode">
+    <button class="copy-button" onclick="copyCode()">複製</button>
+    <pre><code>SELECT
+                 學生,
+                 分數,
+                 ROW_NUMBER() OVER (ORDER BY 分數 DESC) AS row_num,
+                 RANK() OVER (ORDER BY 分數 DESC) AS rank_num,
+                 DENSE_RANK() OVER (ORDER BY 分數 DESC) AS dense_rank_num
+               FROM 學生成績;
+    </code></pre>
+  </div>
+
   <!-- POINT -->
   <h2>POINT</h2>
   <p>
