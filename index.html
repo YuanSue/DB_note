@@ -25,11 +25,22 @@
       margin-top: 40px;
     }
 
-    .important-text {
+    .under{
+      text-decoration: underline;
+      text-decoration-color: black;
+    }
+
+    .red-text {
       font-weight: bold;
-      text-decoration-color: red;
+
       text-decoration-thickness: 2px;
       color: red;
+    }
+
+    .blue-text {
+      font-weight: bold;
+      text-decoration-thickness: 2px;
+      color: rgb(105, 135, 190);
     }
 
     /* 表格樣式 */
@@ -95,8 +106,17 @@
   </table>
 
   <p>
-    這是我使用 GitHub Pages 架設的靜態網站！
-    <span class="important-text">我是重點</span>
+    <span class="blue-text">DENSE_RANK</span>
+      是一種排名函數，用來根據排序結果對數據進行排名，並且
+        <span class="red-text">相同分數的學生排名相同</span>
+          ，不會跳號。
   </p>
+  <h2>POINT</h2>
+  <p>
+    <span class="blue-text">PARTITION BY</span>
+      :用來對數據進行分組，類似 GROUP BY，但
+        <span class="under">不會影響整個結果集的結構</span>
+  </p>
+
 </body>
 </html>
