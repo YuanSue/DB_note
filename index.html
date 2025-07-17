@@ -64,45 +64,35 @@
       background-color: #fafafa;
     }
     /* 程式碼框選格式 */
-    .code-container {
+
+    .code-block {
       position: relative;
-      background: #2d2d2d;
+      background-color: #272822;
       color: #f8f8f2;
-      border-radius: 6px;
-      font-size: 14px;
-      max-width: 800px;
-      margin: 1em 0;
-      padding: 0.75em 1em;
+      padding: 1rem;
+      border-radius: 10px;
+      border: 3px solid #000000;
+      font-family: 'Courier New', monospace;
+      line-height: 1.5;
+      white-space: pre;
       overflow-x: auto;
-      line-height: 1.4;
     }
 
-    /* 複製按鈕 */
-    .copy-btn {
+    .copy-button {
       position: absolute;
-      top: 8px;
-      right: 8px;
-      font-size: 12px;
-      background: #f0f0f0;
-      border: none;
-      padding: 4px 8px;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      font-size: 0.8rem;
       cursor: pointer;
-      border-radius: 4px;
-      transition: background 0.2s ease;
-    }
-
-    .copy-btn:hover {
-      background: #ccc;
-    }
-
-    .copy-btn.copied {
-      background: #4caf50;
+      background-color: #4CAF50;
       color: white;
+      border: none;
+      border-radius: 5px;
     }
 
-    pre {
-      margin: 0;
-      white-space: pre-wrap; /* 或用 pre 也可以 */
+    .copy-button:hover {
+      background-color: #45a049;
     }
 
   </style>
@@ -154,21 +144,22 @@
           ，不會跳號。
   </p>
   <p>
-  <span class="blue-text">over()</span> 定義了
-  <span class="under">以上三種排序</span> 的計算範圍，也就是它適用在哪些數據上。<br>
-    範例如下：
+    <span class="blue-text">over()</span>
+      定義了
+        <span class="under">以上三種排序</span>
+          的計算範圍，也就是它適用在哪些數據上。<br>
+          範例如下:
   </p>
 
   <div class="code-block" id="sqlCode">
-    <button class="copy-button" onclick="copyCode()">複製</button>
-    <pre><code>SELECT
-                 學生,
-                 分數,
-                 ROW_NUMBER() OVER (ORDER BY 分數 DESC) AS row_num,
-                 RANK() OVER (ORDER BY 分數 DESC) AS rank_num,
-                 DENSE_RANK() OVER (ORDER BY 分數 DESC) AS dense_rank_num
-               FROM 學生成績;
-    </code></pre>
+      <button class="copy-button" onclick="copyCode()">複製</button>
+      SELECT
+        學生,
+        分數,
+        ROW_NUMBER() OVER (ORDER BY 分數 DESC) AS row_num,
+        RANK() OVER (ORDER BY 分數 DESC) AS rank_num,
+        DENSE_RANK() OVER (ORDER BY 分數 DESC) AS dense_rank_num
+      FROM 學生成績;
   </div>
 
   <!-- POINT -->
@@ -180,19 +171,14 @@
   </p>
 
   <script>
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const code = btn.nextElementSibling.innerText;
-        navigator.clipboard.writeText(code).then(() => {
-          btn.classList.add('copied');
-          btn.textContent = '已複製！';
-          setTimeout(() => {
-            btn.classList.remove('copied');
-            btn.textContent = '複製';
-          }, 1500); // 1.5 秒後恢復
-        });
+    function copyCode() {
+      const code = document.getElementById("sqlCode").innerText;
+      // 移除按鈕文字
+      const cleanedCode = code.replace(/^複製/, '').trim();
+      navigator.clipboard.writeText(cleanedCode).then(() => {
+        alert("已複製 SQL 程式碼！");
       });
-    });
+    }
   </script>
 </body>
 </html>
