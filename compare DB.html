@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>DB note</title>
+  
+  <!-- 字型與樣式 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      margin: 30px;
+      color: #222;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    h2 {
+      font-weight: 700;
+      font-size: 1.5em;
+      color: #222;
+      /*text-align: center;*/
+      margin-top: 40px;
+    }
+
+    .under{
+      text-decoration: underline;
+      text-decoration-color: black;
+    }
+
+    .red-text {
+      font-weight: bold;
+
+      text-decoration-thickness: 2px;
+      color: red;
+    }
+
+    .blue-text {
+      font-weight: bold;
+      text-decoration-thickness: 2px;
+      color: rgb(105, 135, 190);
+    }
+
+    /* 表格樣式 */
+    table {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+    }
+
+    th {
+      background-color: #f5f5f5;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+    /* 程式碼框選格式 */
+
+    .code-block {
+      position: relative;
+      background-color: #272822;
+      color: #f8f8f2;
+      padding: 1rem;
+      border-radius: 10px;
+      border: 3px solid #000000;
+      font-family: 'Courier New', monospace;
+      line-height: 1.5;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .copy-button:hover {
+      background-color: #45a049;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>DB比較</h1>
+  <h2>Teradata vs Oracle 比較表格</h2>
+  <!-- 表格開始 -->
+  <table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th>Oracle 行為</th>
+        <th>Teradata 行為</th>
+        <th>備註</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>CHAR vs VARCHAR 比較</td>
+        <td><code>CHAR</code> 會自動補空格，<code>VARCHAR2</code> 不會補空格</td>
+        <td>行為可能不同（需注意字串比較時空格的影響）</td>
+        <td>比較 <code>CHAR</code> 與 <code>VARCHAR</code> 時，可能會造成邏輯不同或結果不一致</td>
+      </tr>
+      <tr>
+        <td>rawtohex(tsub)</td>
+        <td>會將原始資料轉為 HEX 字串以便顯示或比較</td>
+        <td><code>tsub</code> 可能已是字串，無需轉換</td>
+        <td>Oracle 需明確轉 HEX 才能看到原始二進位資料</td>
+      </tr>
+      <tr>
+        <td>ROW_NUMBER() OVER (ORDER BY MAX(tmemo) DESC)</td>
+        <td>使用分析函數 <code>ROW_NUMBER()</code> 搭配 <code>OVER()</code> 語法，根據 <code>tmemo</code> 最大值排序並產生行號</td>
+        <td>同樣支援分析函數，但實作或效能可能略異</td>
+        <td><code>ROW_NUMBER()</code> 是標準 SQL 分析函數，大多數資料庫支援</td>
+      </tr>
+      <tr>
+        <td>COALESCE(NULLIF(tsub, ''), NULL)</td>
+        <td>將空字串 <code>''</code> 視為 NULL，若為空則轉為 NULL，然後取第一個非 NULL 值</td>
+        <td>行為類似，但空字串與 NULL 的處理細節可能不同</td>
+        <td>通用 SQL 手法，但需確認資料庫對空字串與 NULL 的區別</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- 表格結束 -->
+
+  <script>
+    function copyCode(button) {
+      // 找到按鈕所在的程式碼區塊
+      const codeBlock = button.parentElement;
+      // 找到程式碼內容元素
+      const codeContent = codeBlock.querySelector('.code-content');
+      
+      if (codeContent) {
+        navigator.clipboard.writeText(codeContent.textContent).then(() => {
+          alert("已複製 SQL 程式碼！");
+        });
+      }
+    }
+  </script>
+
+ <a href="index.html">← 回首頁</a>
+</body>
+</html>
