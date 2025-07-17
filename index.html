@@ -4,15 +4,9 @@
   <meta charset="UTF-8" />
   <title>DB note</title>
   
-  <!-- ✅ Google Fonts 引入 -->
+  <!-- 字型與樣式 -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700&display=swap" rel="stylesheet">
-  
   <style>
-    :root {
-      --primary-color: red;
-      --underline-thickness: 2px;
-    }
-
     body {
       font-family: 'Noto Sans TC', sans-serif;
       margin: 30px;
@@ -33,15 +27,69 @@
 
     .important-text {
       font-weight: bold;
-      text-decoration-color: var(--primary-color);
-      text-decoration-thickness: var(--underline-thickness);
-      color: var(--primary-color);
+      text-decoration-color: red;
+      text-decoration-thickness: 2px;
+      color: red;
+    }
+
+    /* 表格樣式 */
+    table {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+    }
+
+    th {
+      background-color: #f5f5f5;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fafafa;
     }
   </style>
 </head>
 <body>
   <h1>Parsley的DB筆記</h1>
   <h2>DENSE_RANK() VS. RANK() VS. ROW_NUMBER()</h2>
+
+  <!-- 表格開始 -->
+  <table>
+    <thead>
+      <tr>
+        <th>函數</th>
+        <th>作用</th>
+        <th>排名是否連續</th>
+        <th>是否有跳號</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>RANK()</td>
+        <td>傳統排名</td>
+        <td>否（相同分數占同一名次）</td>
+        <td>是（排名會跳號）</td>
+      </tr>
+      <tr>
+        <td>DENSE_RANK()</td>
+        <td>緊湊排名</td>
+        <td>是（相同分數占同一名次）</td>
+        <td>否（不會跳號）</td>
+      </tr>
+      <tr>
+        <td>ROW_NUMBER()</td>
+        <td>唯一編號</td>
+        <td>是（每行唯一）</td>
+        <td>不適用</td>
+      </tr>
+    </tbody>
+  </table>
+
   <p>
     這是我使用 GitHub Pages 架設的靜態網站！
     <span class="important-text">我是重點</span>
