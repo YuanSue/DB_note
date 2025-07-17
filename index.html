@@ -2,10 +2,36 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>我的網站</title>
+  <title>DB note</title>
+  <style>
+    /* 全站變數設定 */
+    :root {
+      --primary-color: red;
+      --underline-thickness: 2px;
+    }
+
+    /* 網站標題樣式 */
+    h1 {
+      text-align: center;
+    }
+
+    /* 強調文字樣式 */
+    .important-text {
+      font-weight: bold;
+      text-decoration: underline;
+      text-decoration-color: var(--primary-color);
+      text-decoration-thickness: var(--underline-thickness);
+      color: var(--primary-color);
+    }
+  </style>
 </head>
 <body>
-  <h1>歡迎來到我的網站</h1>
-  <p>這是我使用 GitHub Pages 架設的靜態網站！</p>
+  <h1>Parsley的DB筆記</h1>
+  <h2>DENSE_RANK() VS. RANK() VS. ROW_NUMBER() </h2>
+  <p>
+    這是我使用 GitHub Pages 架設的靜態網站！
+    <span class="important-text">我是重點</span>
+  </p>
 </body>
 </html>
+
