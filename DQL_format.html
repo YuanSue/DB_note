@@ -147,15 +147,13 @@
     <span class="blue-text">over()</span>
       定義了
         <span class="under">以上三種排序</span>
-          的計算範圍，也就是它適用在哪些數據上。<br>
+          的計算範圍，也就是它適用在哪些數據上。比較像是一個固定語法。<br>
           範例如下:
   </p>
 
   <div class="code-block" id="sqlCode">
       <button class="copy-button" onclick="copyCode(this)">複製</button>
-      <span class="code-content">SELECT
-        學生,
-        分數,
+      <span class="code-content">SELECT 學生,分數,
         ROW_NUMBER() OVER (ORDER BY 分數 DESC) AS row_num,
         RANK() OVER (ORDER BY 分數 DESC) AS rank_num,
         DENSE_RANK() OVER (ORDER BY 分數 DESC) AS dense_rank_num
@@ -163,12 +161,9 @@
   </div>
   <p>
     <span class="blue-text"> ROW_NUMBER() OVER (ORDER BY MAX(tmemo) DESC) </span>
-          :是對查詢結果進行排序，並給每一行分配一個唯一的行號（Row Number）。
-  </p>
-
-  <p>
-    <span class="blue-text"> ROW_NUMBER() OVER (...) </span>
-          這是分析（Analytic）函數，用來產生行號。
+          :為分析（Analytic）函數，是對查詢結果進行排序，產生唯一的行號（Row Number）並給每一行進行分配。<br>
+          <span class="under">MAX(tmemo)</span>：先對 tmemo 取最大值。<br>
+          <span class="under">ORDER BY ... DESC</span>：按照 tmemo 的最大值從大到小排序。
   </p>
 
   <p>
@@ -176,6 +171,10 @@
           :會根據這個排序順序，為結果集中的每一行分配一個唯一的行號，從 1 開始遞增。
   </p>
 
+  <p>
+    <span class="blue-text"> COALESCE(NULLIF(tsub, ''), NULL) </span>
+          :目的是將空字串 ('') 轉換為 NULL，然後返回第一個非 NULL 的值。
+  </p>
 
   <!-- POINT -->
   <h2>POINT</h2>
