@@ -161,6 +161,21 @@
         DENSE_RANK() OVER (ORDER BY 分數 DESC) AS dense_rank_num
       FROM 學生成績;</span>
   </div>
+  <p>
+    <span class="blue-text"> ROW_NUMBER() OVER (ORDER BY MAX(tmemo) DESC) </span>
+          :是對查詢結果進行排序，並給每一行分配一個唯一的行號（Row Number）。
+  </p>
+
+  <p>
+    <span class="blue-text"> ROW_NUMBER() OVER (...) </span>
+          這是分析（Analytic）函數，用來產生行號。
+  </p>
+
+  <p>
+    <span class="blue-text"> ROW_NUMBER() </span>
+          :會根據這個排序順序，為結果集中的每一行分配一個唯一的行號，從 1 開始遞增。
+  </p>
+
 
   <!-- POINT -->
   <h2>POINT</h2>

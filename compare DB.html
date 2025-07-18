@@ -131,18 +131,6 @@
         <td><code>tsub</code> 可能已是字串，無需轉換</td>
         <td>Oracle 需明確轉 HEX 才能看到原始二進位資料</td>
       </tr>
-      <tr>
-        <td>ROW_NUMBER() OVER (ORDER BY MAX(tmemo) DESC)</td>
-        <td>使用分析函數 <code>ROW_NUMBER()</code> 搭配 <code>OVER()</code> 語法，根據 <code>tmemo</code> 最大值排序並產生行號</td>
-        <td>同樣支援分析函數，但實作或效能可能略異</td>
-        <td><code>ROW_NUMBER()</code> 是標準 SQL 分析函數，大多數資料庫支援</td>
-      </tr>
-      <tr>
-        <td>COALESCE(NULLIF(tsub, ''), NULL)</td>
-        <td>將空字串 <code>''</code> 視為 NULL，若為空則轉為 NULL，然後取第一個非 NULL 值</td>
-        <td>行為類似，但空字串與 NULL 的處理細節可能不同</td>
-        <td>通用 SQL 手法，但需確認資料庫對空字串與 NULL 的區別</td>
-      </tr>
     </tbody>
   </table>
   <!-- 表格結束 -->
